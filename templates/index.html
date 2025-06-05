@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Health Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .chat-box {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="chat-box">
+            <h2 class="mb-4 text-primary">🧠 Your Mental Health Assistant</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="user_input" class="form-label">How are you feeling today?</label>
+                    <textarea name="user_input" id="user_input" rows="4" class="form-control" placeholder="Share what's on your mind..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Ask</button>
+            </form>
+
+            {% if response %}
+                <div class="mt-4">
+                    <h5 class="text-secondary">Assistant's Response:</h5>
+                    <div class="alert alert-info">{{ response }}</div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
