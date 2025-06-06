@@ -39,7 +39,7 @@ def init_db():
 def get_user(username):
     with sqlite3.connect(DB_PATH) as conn:
         c = conn.cursor()
-        c.execute("SELECT id, username, password_hash FROM users WHERE username = ?", (username,))
+        c.execute("SELECT id, username, password_hash FROM users WHERE LOWER(username) = LOWER(?)", (username,))
         row = c.fetchone()
         return {"id": row[0], "username": row[1], "hash": row[2]} if row else None
 
@@ -65,7 +65,7 @@ def clear_history(user_id):
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        username = request.form["username"]
+        username = request.form["username"].lower()
         password = generate_password_hash(request.form["password"])
         try:
             with sqlite3.connect(DB_PATH) as conn:
@@ -80,7 +80,7 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form["username"]
+        username = request.form["username"].lower()
         password = request.form["password"]
         user = get_user(username)
         if user and check_password_hash(user["hash"], password):
