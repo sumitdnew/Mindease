@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, render_template, request, redirect, session, url_for, send_file
 from werkzeug.security import generate_password_hash, check_password_hash
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 import os
 from reportlab.lib.pagesizes import letter
@@ -14,7 +14,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"  # Change in production
-client = OpenAI(api_key=api_key)
+openai.api_key=api_key
 DB_PATH = "auth_chat.db"
 
 # --------------- DB INIT -------------------
@@ -115,7 +115,7 @@ def home():
             try:
                 messages = [{"role": "system", "content": "You're a compassionate mental health assistant. Respond with empathy and ask thoughtful follow-up questions."}]
                 messages += load_history(user_id)
-                response = client.chat.completions.create(
+                response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=messages
                 )
