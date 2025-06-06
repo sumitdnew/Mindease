@@ -39,7 +39,7 @@ def init_db():
 def get_user(username):
     with sqlite3.connect(DB_PATH) as conn:
         c = conn.cursor()
-        c.execute("SELECT id, username, password_hash FROM users WHERE LOWER(username) = LOWER(?)", (username,))
+        c.execute("SELECT id, username, password_hash FROM users WHERE LOWER(username) = ?", (username.lower(),))
         row = c.fetchone()
         return {"id": row[0], "username": row[1], "hash": row[2]} if row else None
 
